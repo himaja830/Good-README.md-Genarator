@@ -6,50 +6,51 @@ const questions = [
     {
         type: "input",
         name: "name",
-        message: "Title of your page?"
+        message: "What is title of your page?"
 
     },
     {
         type: "input",
-        message: "Description",
+        message: "Describe your page",
         name: "Description",
     },
     {
         type: "input",
-        message: "Table of contents",
+        message: " Mention your Table of contents",
         name: "content",
     },
         
     {
         type: "input",
-        message: "Installation",
+        message: "What are the steps required to install your project?",
         name: "installation"
     },
     {
         type: "input",
-        message: "Usage",
+        message: "Provide instructions and examples for use",
         name: "usage",
 
     },
     {
-        type: "checkbox",
-        message: "License",
+        type: "list",
+        message: "License you like to use?",
         name: "license",
         choices: ["MIT", "Appache", "GNU/GPL", "CreativeCommon"]
     },
+
     {
         type: "input",
-        message: "Contributing",
+        message: "How would you want other developers to contribute to the Apllication or package?",
         name: "contribution",
     }, 
     {
         type: "input",
-        message: "Tests",
+        message: "Write tests for your Application.",
         name: "test",
     }, 
     {
         type: "input",
-        message: "How do you wanted to be contacted with questions",
+        message: "How do you wanted to be contacted with questions?",
         name: "question",
     }
 ]
@@ -59,40 +60,62 @@ function writeToFile(fileName, data) {
     let fpath = process.cwd();
     let file = fs.writeFileSync(`${fpath}/${fileName}`, data);
     return file;
+    //generateBadge(license);
+
 }
 
 // function to initialize program
 function init() {
 inquirer.prompt(questions).then(function(data){
     var fileName = "README.md";
-    writeToFile(fileName, Util(data));
+    writeToFile(fileName, Util(data),);
     console.log(fileName);
 
 });
 }
+ //function generateBadge(license){
+ //   let licenseName = license.replace(' ', '');
+ //   return `![GitHub License](https://img.shields.io/badge/license-$license}-blue.svg)`;
+//}
 
 // function call to initialize program
 init();
 
 function Util(data){
-    return `
-    # Title
+    return`
+# Title: [![GitHub license](https://img.shields.io/badge/license-${data.license}-blue.svg)](https://github.com/${data.name.toLowerCase().split(' ').join("-")})
     ${data.name}
-    ## Description
+    
+## Description:
     ${data.Description}
-    ## Table of Contents
-    ${data.content}
-    ## Installation
+   
+
+## Table of Contents:
+
+* [Installation ](#Installation)
+* [Usage](#Usage)
+* [Tests](#Tests)
+* [License](#License)
+* [questions](#questions)
+
+    
+
+## Installation:
     ${data.installation}
-    ## Usage
+
+## Usage:
     ${data.usage}
-    ## License
+
+## License:
     ${data.license}
-    ## Contributing
+
+## Contributing:
     ${data.contribution}
-    ## Tests
+
+## Tests:
     ${data.test}
-    ## How do you wanted to be contacted with questions
+
+## Contact:
     ${data.question}
     `
 }
